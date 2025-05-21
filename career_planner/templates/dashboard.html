@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard - Career Planner</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: #f5f7fa;
+        margin: 0;
+        padding: 0;
+        color: #2c3e50;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px;
+      }
+      header {
+        background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      .header-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      h2 {
+        margin: 0;
+        font-size: 2.2rem;
+        font-weight: 700;
+      }
+      h3 {
+        font-size: 1.5rem;
+        color: #2c3e50;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #eee;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      h3::before {
+        content: "";
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background-size: contain;
+      }
+      .card {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      }
+      .career-card {
+        background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        color: white;
+        font-size: 1.2rem;
+      }
+      .career-card strong {
+        font-size: 1.4rem;
+      }
+      ul {
+        padding-left: 20px;
+      }
+      li {
+        margin-bottom: 8px;
+      }
+      .skill-gap {
+        background: #fff8e1;
+      }
+      .missing-skill {
+        color: #e74c3c;
+        font-weight: 600;
+      }
+      .upload-form {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .upload-form input[type="file"] {
+        padding: 10px;
+        border: 2px dashed #3498db;
+        border-radius: 8px;
+        background: #f8fafc;
+      }
+      button {
+        padding: 12px 24px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      button:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
+      }
+      .logout-btn {
+        background-color: #e74c3c;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        color: white;
+        transition: all 0.3s ease;
+      }
+      .logout-btn:hover {
+        background-color: #c0392b;
+        box-shadow: 0 4px 8px rgba(192, 57, 43, 0.3);
+      }
+      .resume-score {
+        font-size: 1.3rem;
+        color: #2ecc71;
+        margin: 15px 0;
+      }
+      .resources-list a {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s ease;
+      }
+      .resources-list a:hover {
+        color: #2980b9;
+        text-decoration: underline;
+      }
+      .personality-traits {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+      }
+      .trait-card {
+        background: white;
+        border-left: 4px solid #3498db;
+        padding: 15px;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+      .trait-card strong {
+        display: block;
+        margin-bottom: 5px;
+        color: #2c3e50;
+      }
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+      }
+      .success-message {
+        color: #2ecc71;
+        font-weight: 600;
+      }
+      .emoji {
+        font-size: 1.2em;
+        margin-right: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-flex">
+          <div>
+            <h2>Welcome back, {{ user.name }}!</h2>
+            <p>Let's continue your career development journey</p>
+          </div>
+          <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        </div>
+      </header>
+
+      <div class="grid-container">
+        <div>
+          <div class="card career-card">
+            <p><strong>Predicted Career:</strong> {{ career }}</p>
+          </div>
+
+          <div class="card skill-gap">
+            <h3><span class="emoji">🧩</span> Skill Gap Analysis</h3>
+            {% if missing_skills %}
+            <p>
+              You are missing the following skills for
+              <strong>{{ career }}</strong>:
+            </p>
+            <ul>
+              {% for skill in missing_skills %}
+              <li class="missing-skill">{{ skill }}</li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <p class="success-message">
+              ✅ You have all the necessary skills for {{ career }}!
+            </p>
+            {% endif %}
+          </div>
+
+          <div class="card">
+            <h3><span class="emoji">🎓</span> Recommended Resources</h3>
+            {% if resources %}
+            <ul class="resources-list">
+              {% for name, link in resources %}
+              <li><a href="{{ link }}" target="_blank">{{ name }}</a></li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <p>No resources found for this career.</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <h3><span class="emoji">📄</span> Upload Resume</h3>
+            <form
+              action="/upload_resume"
+              method="POST"
+              enctype="multipart/form-data"
+              class="upload-form"
+            >
+              <input
+                type="file"
+                name="resume"
+                accept=".pdf,.doc,.docx"
+                required
+              />
+              <button type="submit">Upload & Analyze</button>
+            </form>
+
+            {% if resume_score is not none %}
+            <div class="resume-score">✅ Resume Score: {{ resume_score }}%</div>
+            {% if resume_tips %}
+            <p>Suggestions to improve your resume:</p>
+            <ul>
+              {% for tip in resume_tips %}
+              <li>Include: <strong>{{ tip }}</strong></li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <p class="success-message">
+              ✅ Your resume covers all important keywords!
+            </p>
+            {% endif %} {% endif %}
+          </div>
+
+          <div class="card">
+            <h3><span class="emoji">🧠</span> Personality Insights</h3>
+            {% if personality_traits %}
+            <div class="personality-traits">
+              {% for trait, score in personality_traits.items() %}
+              <div class="trait-card">
+                <strong>{{ trait }}</strong>
+                <div>{{ score }}</div>
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            <p>No personality insights available.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

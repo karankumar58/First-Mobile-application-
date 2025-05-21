@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Register - Career Planner</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .register-container {
+        background: white;
+        width: 100%;
+        max-width: 500px;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #2c3e50;
+        font-size: 2rem;
+        margin-bottom: 25px;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #2c3e50;
+        font-weight: 600;
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      button {
+        width: 100%;
+        padding: 14px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+      }
+
+      button:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
+      }
+
+      .login-link {
+        margin-top: 20px;
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      .login-link a {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .login-link a:hover {
+        text-decoration: underline;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 20px;
+      }
+
+      .form-row .form-group {
+        flex: 1;
+      }
+
+      .password-hint {
+        font-size: 0.8rem;
+        color: #7f8c8d;
+        margin-top: 5px;
+      }
+
+      @media (max-width: 600px) {
+        .form-row {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="register-container">
+      <h2>Create Your Account</h2>
+
+      <form method="POST" action="{{ url_for('register') }}">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              placeholder="naam likho apna"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="apkimail@email.com"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            placeholder="password banao"
+          />
+          <div class="password-hint">
+            Use at least 8 characters with a mix of letters and numbers
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="skills">Skills</label>
+            <input
+              type="text"
+              id="skills"
+              name="skills"
+              required
+              placeholder="e.g. Python, Leadership"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="marks">Academic Marks (%)</label>
+            <input
+              type="number"
+              id="marks"
+              name="marks"
+              required
+              placeholder="e.g. 85"
+              min="0"
+              max="100"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="interests">Interests</label>
+          <input
+            type="text"
+            id="interests"
+            name="interests"
+            required
+            placeholder="e.g. AI, Marketing, Design"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="personality_paragraph">Tell us about yourself</label>
+          <textarea
+            id="personality_paragraph"
+            name="personality_paragraph"
+            required
+            placeholder="Describe your personality, goals, and what you're looking for in a career..."
+          ></textarea>
+        </div>
+
+        <button type="submit">Create Account</button>
+      </form>
+
+      <div class="login-link">
+        Already have an account?
+        <a href="{{ url_for('login') }}">Log in here</a>
+      </div>
+    </div>
+  </body>
+</html>

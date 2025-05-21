@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Career Planner</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        text-align: center;
+        padding: 50px;
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        max-width: 800px;
+        background: white;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #2c3e50;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+      p {
+        color: #7f8c8d;
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        line-height: 1.6;
+      }
+      .btn-container {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      a {
+        display: inline-block;
+        padding: 14px 28px;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        min-width: 150px;
+        text-align: center;
+      }
+      .register-btn {
+        background-color: #3498db;
+        box-shadow: 0 4px 6px rgba(52, 152, 219, 0.3);
+      }
+      .register-btn:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(52, 152, 219, 0.4);
+      }
+      .login-btn {
+        background-color: #2ecc71;
+        box-shadow: 0 4px 6px rgba(46, 204, 113, 0.3);
+      }
+      .login-btn:hover {
+        background-color: #27ae60;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(46, 204, 113, 0.4);
+      }
+      .features {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .feature {
+        flex: 1;
+        min-width: 200px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+      .feature h3 {
+        color: #2c3e50;
+        margin-top: 0;
+      }
+      .feature p {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        margin-bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome to Career Planner</h1>
+      <p>Plan your future based on your skills, interests, and personality with our comprehensive career assessment tools and personalized recommendations.</p>
+      <div class="btn-container">
+        <a href="{{ url_for('register') }}" class="register-btn">Register</a>
+        <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+      </div>
+      
+      <div class="features">
+        <div class="feature">
+          <h3>Skill Assessment</h3>
+          <p>Discover your strengths and areas for improvement with our detailed skill analysis.</p>
+        </div>
+        <div class="feature">
+          <h3>Career Matching</h3>
+          <p>Find careers that align perfectly with your personality and interests.</p>
+        </div>
+        <div class="feature">
+          <h3>Growth Roadmap</h3>
+          <p>Get a personalized development plan to achieve your career goals.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

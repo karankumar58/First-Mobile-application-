@@ -1,0 +1,22 @@
+# Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+env/
+venv/
+
+# Environment variables
+.env
+
+# Flask instance folder
+instance/
+
+# Database files (agar local ho)
+*.sqlite3
+
+# Mac/Windows system files
+.DS_Store
+Thumbs.db
