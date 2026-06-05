@@ -176,5 +176,5 @@ dependencies:
 ---
 
 <div align="center">
-  Develop by karan kumar
+  Developed by Karan Kumar
 </div>
