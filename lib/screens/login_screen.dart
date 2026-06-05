@@ -76,10 +76,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryColor.withOpacity(0.15),
+                    color: AppTheme.primaryColor.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                     border: Border.all(
-                        color: AppTheme.primaryColor.withOpacity(0.4), width: 2),
+                        color: AppTheme.primaryColor.withValues(alpha: 0.4), width: 2),
                   ),
                   child: const Icon(Icons.lock_rounded,
                       size: 36, color: AppTheme.primaryColor),

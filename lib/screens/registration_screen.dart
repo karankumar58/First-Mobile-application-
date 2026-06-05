@@ -136,7 +136,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 // Gender
                 _label('Gender'),
                 DropdownButtonFormField<Gender>(
-                  value: _selectedGender,
+                  initialValue: _selectedGender,
                   dropdownColor: AppTheme.cardColor,
                   decoration: const InputDecoration(
                     hintText: 'Select gender',

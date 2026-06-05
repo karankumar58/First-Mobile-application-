@@ -270,7 +270,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           CircleAvatar(
             radius: 30,
-            backgroundColor: Colors.white.withOpacity(0.25),
+            backgroundColor: Colors.white.withValues(alpha: 0.25),
             child: Text(
               initials,
               style: const TextStyle(
@@ -297,7 +297,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Text(
                   email ?? '',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.8),
+                    color: Colors.white.withValues(alpha: 0.8),
                     fontSize: 13,
                   ),
                 ),
@@ -315,7 +315,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       decoration: BoxDecoration(
         color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppTheme.errorColor.withOpacity(0.6)),
+        border: Border.all(color: AppTheme.errorColor.withValues(alpha: 0.6)),
       ),
       child: Column(
         children: [
@@ -400,7 +400,7 @@ class _CourseCard extends StatelessWidget {
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withOpacity(0.15),
+                  color: AppTheme.primaryColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(

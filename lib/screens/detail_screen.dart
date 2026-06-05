@@ -59,7 +59,7 @@ class DetailScreen extends StatelessWidget {
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.transparent,
-                            Colors.black.withOpacity(0.55),
+                            Colors.black.withValues(alpha: 0.55),
                           ],
                         ),
                       ),
@@ -79,10 +79,10 @@ class DetailScreen extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryColor.withOpacity(0.15),
+                      color: AppTheme.primaryColor.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: AppTheme.primaryColor.withOpacity(0.4),
+                        color: AppTheme.primaryColor.withValues(alpha: 0.4),
                       ),
                     ),
                     child: Text(
@@ -160,14 +160,14 @@ class DetailScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFF30363D)),
       ),
-      child: Row(
+      child: const Row(
         children: [
-          const Icon(Icons.cloud_done_outlined, color: AppTheme.accentColor),
-          const SizedBox(width: 12),
+          Icon(Icons.cloud_done_outlined, color: AppTheme.accentColor),
+          SizedBox(width: 12),
           Expanded(
             child: Text(
               'Loaded from JSONPlaceholder /posts endpoint as course data.',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppTheme.textSecondary,
                 fontSize: 13,
                 height: 1.5,
