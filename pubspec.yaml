@@ -1,4 +1,4 @@
-name: flutter_multi_screen_app
+﻿name: flutter_multi_screen_app
 description: Multi-screen Flutter application with authentication
 
 publish_to: 'none'
@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   shared_preferences: ^2.2.2
+  http: ^1.2.1
   cupertino_icons: ^1.0.6
 
 dev_dependencies:
@@ -20,3 +21,4 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+

@@ -1,180 +1,85 @@
-# 📱 Flutter Multi-Screen App
+﻿# Flutter CRUD API Integration Assignment
 
-A beautifully crafted **Flutter** application featuring a complete authentication flow and an academic subject viewer — built with clean architecture, a rich dark theme, and smooth navigation.
+This Flutter project extends the previous multi-screen authentication app with REST API integration and full CRUD operations for course data.
 
----
+## Branch Name
 
-## ✨ Features
+`feature/course-api-integration`
 
-| Feature | Details |
-|---|---|
-| 🔐 **Authentication** | Register & Login with in-memory user store |
-| ✅ **Form Validation** | Real-time validators for email, password strength & name |
-| 🎨 **Dark Theme** | Custom `AppTheme` with Material 3 color scheme |
-| 📋 **Dashboard** | Personalized greeting card + subject list |
-| 📖 **Detail View** | Per-subject description, schedule & learning objectives |
-| 🚪 **Logout** | Confirmation dialog with clean state reset |
-| ♻️ **State Management** | `ChangeNotifier`-based `AuthController` |
-| 🧑‍🎓 **Gender Selection** | Dropdown with four inclusive options |
+## API Used
 
----
+- API: JSONPlaceholder
+- Base URL: `https://jsonplaceholder.typicode.com`
+- Course data endpoint used: `/posts`
+- Official documentation followed: https://jsonplaceholder.typicode.com/guide
 
-## 📸 Screenshots
+JSONPlaceholder uses `posts` resources with `id`, `userId`, `title`, and `body`. In this app, each post is treated as a course:
 
-<div align="center">
+- `id` -> Course ID
+- `title` -> Course title
+- `body` -> Course description
 
-| Login | Register | Dashboard | Subject Detail |
-|:---:|:---:|:---:|:---:|
-| <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgNjUwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjY1MCI+CiAgPGRlZnM+CiAgICA8Y2xpcFBhdGggaWQ9InNjcmVlbi1jbGlwIj4KICAgICAgPHJlY3QgeD0iMTYiIHk9IjUyIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjU1NiIgcng9IjgiLz4KICAgIDwvY2xpcFBhdGg+CiAgICA8ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0xMCUiIHk9Ii01JSIgd2lkdGg9IjEyMCUiIGhlaWdodD0iMTE1JSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSI4IiBzdGREZXZpYXRpb249IjEyIiBmbG9vZC1jb2xvcj0iIzAwMCIgZmxvb2Qtb3BhY2l0eT0iMC42Ii8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CiAgPCEtLSBQaG9uZSBzaGVsbCAtLT4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjY1MCIgcng9IjM2IiByeT0iMzYiIGZpbGw9IiMxYTFmMmUiIGZpbHRlcj0idXJsKCNzaGFkb3cpIi8+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjMxNiIgaGVpZ2h0PSI2NDYiIHJ4PSIzNCIgcnk9IjM0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyZDM0NDgiIHN0cm9rZS13aWR0aD0iMiIvPgogIDwhLS0gQ2FtZXJhIG5vdGNoIC0tPgogIDxyZWN0IHg9IjEyMCIgeT0iMTgiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxOCIgcng9IjkiIGZpbGw9IiMxMTE1MjAiLz4KICA8Y2lyY2xlIGN4PSIxNjAiIGN5PSIyNyIgcj0iNCIgZmlsbD0iIzBkMTExNyIvPgogIDwhLS0gU2NyZWVuIGJlemVsIC0tPgogIDxyZWN0IHg9IjE0IiB5PSI1MCIgd2lkdGg9IjI5MiIgaGVpZ2h0PSI1NjAiIHJ4PSIxMCIgZmlsbD0iIzE2MUIyMiIvPgogIDwhLS0gU2NyZWVuIGNvbnRlbnQgLS0+CiAgPGcgY2xpcC1wYXRoPSJ1cmwoI3NjcmVlbi1jbGlwKSI+CiAgICA8cmVjdCB4PSIxNiIgeT0iNTIiIHdpZHRoPSIyODgiIGhlaWdodD0iNTU2IiBmaWxsPSIjMEQxMTE3Ii8+CiAgICAKICA8IS0tIFN0YXR1cyBiYXIgLS0+CiAgPHJlY3QgeD0iMTYiIHk9IjUyIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMTYxQjIyIi8+CiAgPHRleHQgeD0iMzAiIHk9IjY4IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEwIiBmaWxsPSIjOEI5NDlFIj45OjQxPC90ZXh0PgogIDx0ZXh0IHg9IjI2MCIgeT0iNjgiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM4Qjk0OUUiPuKXj+KXj+KXjzwvdGV4dD4KCiAgPCEtLSBMb2NrIGljb24gY2lyY2xlIC0tPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjEzMCIgcj0iMzYiIGZpbGw9IiMzQjVCREIiIGZpbGwtb3BhY2l0eT0iMC4xNSIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjEzMCIgcj0iMzYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNCNUJEQiIgc3Ryb2tlLW9wYWNpdHk9IjAuNCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPCEtLSBMb2NrIGljb24gLS0+CiAgPHJlY3QgeD0iMTUwIiB5PSIxMjciIHdpZHRoPSIyMCIgaGVpZ2h0PSIxNiIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNCNUJEQiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTE1MyAxMjcgUTE1MyAxMTkgMTYwIDExOSBRMTY3IDExOSAxNjcgMTI3IiBmaWxsPSJub25lIiBzdHJva2U9IiMzQjVCREIiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjEzNSIgcj0iMi41IiBmaWxsPSIjM0I1QkRCIi8+CgogIDwhLS0gV2VsY29tZSB0ZXh0IC0tPgogIDx0ZXh0IHg9IjE2MCIgeT0iMTg4IiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNFNkVERjMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPldlbGNvbWUgQmFjazwvdGV4dD4KICA8dGV4dCB4PSIxNjAiIHk9IjIwNiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM4Qjk0OUUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlNpZ24gaW4gdG8geW91ciBhY2NvdW50IHRvIGNvbnRpbnVlPC90ZXh0PgoKICA8IS0tIEVtYWlsIGxhYmVsIC0tPgogIDx0ZXh0IHg9IjMwIiB5PSIyMzIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmaWxsPSIjRTZFREYzIiBmb250LXdlaWdodD0iNTAwIj5FbWFpbCBBZGRyZXNzPC90ZXh0PgogIDwhLS0gRW1haWwgZmllbGQgLS0+CiAgPHJlY3QgeD0iMjYiIHk9IjIzOCIgd2lkdGg9IjI2OCIgaGVpZ2h0PSI0MiIgcng9IjEwIiBmaWxsPSIjMUMyMzMzIiBzdHJva2U9IiMzMDM2M0QiIHN0cm9rZS13aWR0aD0iMSIvPgogIDx0ZXh0IHg9IjUyIiB5PSIyNjQiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOEI5NDlFIj5hbGkua2hhbkBleGFtcGxlLmNvbTwvdGV4dD4KICA8dGV4dCB4PSIzNSIgeT0iMjY0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjOEI5NDlFIj7inIk8L3RleHQ+CgogIDwhLS0gUGFzc3dvcmQgbGFiZWwgLS0+CiAgPHRleHQgeD0iMzAiIHk9IjI5OCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiNFNkVERjMiIGZvbnQtd2VpZ2h0PSI1MDAiPlBhc3N3b3JkPC90ZXh0PgogIDwhLS0gUGFzc3dvcmQgZmllbGQgLS0+CiAgPHJlY3QgeD0iMjYiIHk9IjMwNCIgd2lkdGg9IjI2OCIgaGVpZ2h0PSI0MiIgcng9IjEwIiBmaWxsPSIjMUMyMzMzIiBzdHJva2U9IiMzQjVCREIiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjM1IiB5PSIzMzAiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM4Qjk0OUUiPvCflJI8L3RleHQ+CiAgPHRleHQgeD0iNTIiIHk9IjMzMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM4Qjk0OUUiPuKAouKAouKAouKAouKAouKAouKAouKAouKAouKAojwvdGV4dD4KICA8dGV4dCB4PSIyNjUiIHk9IjMzMCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzhCOTQ5RSI+8J+RgTwvdGV4dD4KCiAgPCEtLSBSZW1lbWJlciBtZSAtLT4KICA8cmVjdCB4PSIyNyIgeT0iMzU4IiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHJ4PSIzIiBmaWxsPSIjM0I1QkRCIi8+CiAgPHRleHQgeD0iMjciIHk9IjM2OCIgZm9udC1zaXplPSIxMCIgZmlsbD0id2hpdGUiPuKckzwvdGV4dD4KICA8dGV4dCB4PSI0OCIgeT0iMzY5IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgZmlsbD0iIzhCOTQ5RSI+UmVtZW1iZXIgbWU8L3RleHQ+CgogIDwhLS0gU2lnbiBJbiBidXR0b24gLS0+CiAgPHJlY3QgeD0iMjYiIHk9IjM4NSIgd2lkdGg9IjI2OCIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjM0I1QkRCIi8+CiAgPHRleHQgeD0iMTYwIiB5PSI0MTMiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+U2lnbiBJbjwvdGV4dD4KCiAgPCEtLSBSZWdpc3RlciBsaW5rIC0tPgogIDx0ZXh0IHg9IjExMCIgeT0iNDUwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzhCOTQ5RSI+RG9uJ3QgaGF2ZSBhbiBhY2NvdW50PzwvdGV4dD4KICA8dGV4dCB4PSIyMzgiIHk9IjQ1MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0REFCRjciIGZvbnQtd2VpZ2h0PSI1MDAiPlJlZ2lzdGVyPC90ZXh0PgoKICA8L2c+CiAgPCEtLSBIb21lIGluZGljYXRvciAtLT4KICA8cmVjdCB4PSIxMjAiIHk9IjYyMiIgd2lkdGg9IjgwIiBoZWlnaHQ9IjQiIHJ4PSIyIiBmaWxsPSIjNDQ0YzY2Ii8+Cjwvc3ZnPg==" width="200"/> | <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgNjUwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjY1MCI+CiAgPGRlZnM+CiAgICA8Y2xpcFBhdGggaWQ9InNjcmVlbi1jbGlwIj4KICAgICAgPHJlY3QgeD0iMTYiIHk9IjUyIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjU1NiIgcng9IjgiLz4KICAgIDwvY2xpcFBhdGg+CiAgICA8ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0xMCUiIHk9Ii01JSIgd2lkdGg9IjEyMCUiIGhlaWdodD0iMTE1JSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSI4IiBzdGREZXZpYXRpb249IjEyIiBmbG9vZC1jb2xvcj0iIzAwMCIgZmxvb2Qtb3BhY2l0eT0iMC42Ii8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CiAgPCEtLSBQaG9uZSBzaGVsbCAtLT4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjY1MCIgcng9IjM2IiByeT0iMzYiIGZpbGw9IiMxYTFmMmUiIGZpbHRlcj0idXJsKCNzaGFkb3cpIi8+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjMxNiIgaGVpZ2h0PSI2NDYiIHJ4PSIzNCIgcnk9IjM0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyZDM0NDgiIHN0cm9rZS13aWR0aD0iMiIvPgogIDwhLS0gQ2FtZXJhIG5vdGNoIC0tPgogIDxyZWN0IHg9IjEyMCIgeT0iMTgiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxOCIgcng9IjkiIGZpbGw9IiMxMTE1MjAiLz4KICA8Y2lyY2xlIGN4PSIxNjAiIGN5PSIyNyIgcj0iNCIgZmlsbD0iIzBkMTExNyIvPgogIDwhLS0gU2NyZWVuIGJlemVsIC0tPgogIDxyZWN0IHg9IjE0IiB5PSI1MCIgd2lkdGg9IjI5MiIgaGVpZ2h0PSI1NjAiIHJ4PSIxMCIgZmlsbD0iIzE2MUIyMiIvPgogIDwhLS0gU2NyZWVuIGNvbnRlbnQgLS0+CiAgPGcgY2xpcC1wYXRoPSJ1cmwoI3NjcmVlbi1jbGlwKSI+CiAgICA8cmVjdCB4PSIxNiIgeT0iNTIiIHdpZHRoPSIyODgiIGhlaWdodD0iNTU2IiBmaWxsPSIjMEQxMTE3Ii8+CiAgICAKICA8IS0tIEFwcEJhciAtLT4KICA8cmVjdCB4PSIxNiIgeT0iNTIiIHdpZHRoPSIyODgiIGhlaWdodD0iNTIiIGZpbGw9IiMxNjFCMjIiLz4KICA8dGV4dCB4PSIzMCIgeT0iNjUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM4Qjk0OUUiPuKGkDwvdGV4dD4KICA8dGV4dCB4PSIxNjAiIHk9IjgyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI0U2RURGMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q3JlYXRlIEFjY291bnQ8L3RleHQ+CgogIDwhLS0gSGVhZGluZyAtLT4KICA8dGV4dCB4PSIzMCIgeT0iMTI2IiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNFNkVERjMiPkpvaW4gVXMg8J+RizwvdGV4dD4KICA8dGV4dCB4PSIzMCIgeT0iMTQ0IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzhCOTQ5RSI+Q3JlYXRlIHlvdXIgYWNjb3VudCB0byBnZXQgc3RhcnRlZDwvdGV4dD4KCiAgPCEtLSBGdWxsIE5hbWUgLS0+CiAgPHRleHQgeD0iMzAiIHk9IjE3MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiNFNkVERjMiIGZvbnQtd2VpZ2h0PSI1MDAiPkZ1bGwgTmFtZTwvdGV4dD4KICA8cmVjdCB4PSIyNiIgeT0iMTc2IiB3aWR0aD0iMjY4IiBoZWlnaHQ9IjQwIiByeD0iMTAiIGZpbGw9IiMxQzIzMzMiIHN0cm9rZT0iIzMwMzYzRCIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHRleHQgeD0iMzYiIHk9IjIwMCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzhCOTQ5RSI+8J+RpDwvdGV4dD4KICA8dGV4dCB4PSI1NiIgeT0iMjAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZmlsbD0iI0U2RURGMyI+QWhtZWQgUmF6YTwvdGV4dD4KCiAgPCEtLSBFbWFpbCAtLT4KICA8dGV4dCB4PSIzMCIgeT0iMjMwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgZmlsbD0iI0U2RURGMyIgZm9udC13ZWlnaHQ9IjUwMCI+RW1haWwgQWRkcmVzczwvdGV4dD4KICA8cmVjdCB4PSIyNiIgeT0iMjM2IiB3aWR0aD0iMjY4IiBoZWlnaHQ9IjQwIiByeD0iMTAiIGZpbGw9IiMxQzIzMzMiIHN0cm9rZT0iIzMwMzYzRCIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHRleHQgeD0iMzYiIHk9IjI2MCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzhCOTQ5RSI+4pyJPC90ZXh0PgogIDx0ZXh0IHg9IjU2IiB5PSIyNjAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjRTZFREYzIj5haG1lZC5yYXphQGdtYWlsLmNvbTwvdGV4dD4KCiAgPCEtLSBHZW5kZXIgLS0+CiAgPHRleHQgeD0iMzAiIHk9IjI5MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiNFNkVERjMiIGZvbnQtd2VpZ2h0PSI1MDAiPkdlbmRlcjwvdGV4dD4KICA8cmVjdCB4PSIyNiIgeT0iMjk2IiB3aWR0aD0iMjY4IiBoZWlnaHQ9IjQwIiByeD0iMTAiIGZpbGw9IiMxQzIzMzMiIHN0cm9rZT0iIzMwMzYzRCIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHRleHQgeD0iMzYiIHk9IjMyMCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzhCOTQ5RSI+4pqkPC90ZXh0PgogIDx0ZXh0IHg9IjU2IiB5PSIzMjAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjRTZFREYzIj5NYWxlPC90ZXh0PgogIDx0ZXh0IHg9IjI3NCIgeT0iMzIwIiBmb250LXNpemU9IjEwIiBmaWxsPSIjOEI5NDlFIj7ilr48L3RleHQ+CgogIDwhLS0gUGFzc3dvcmQgLS0+CiAgPHRleHQgeD0iMzAiIHk9IjM1MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiNFNkVERjMiIGZvbnQtd2VpZ2h0PSI1MDAiPlBhc3N3b3JkPC90ZXh0PgogIDxyZWN0IHg9IjI2IiB5PSIzNTYiIHdpZHRoPSIyNjgiIGhlaWdodD0iNDAiIHJ4PSIxMCIgZmlsbD0iIzFDMjMzMyIgc3Ryb2tlPSIjMzAzNjNEIiBzdHJva2Utd2lkdGg9IjEiLz4KICA8dGV4dCB4PSIzNiIgeT0iMzgwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjOEI5NDlFIj7wn5SSPC90ZXh0PgogIDx0ZXh0IHg9IjU2IiB5PSIzODAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOEI5NDlFIj7igKLigKLigKLigKLigKLigKLigKLigKI8L3RleHQ+CgogIDwhLS0gUGFzc3dvcmQgaGludHMgLS0+CiAgPHJlY3QgeD0iMjYiIHk9IjQwMiIgd2lkdGg9IjI2OCIgaGVpZ2h0PSI1OCIgcng9IjgiIGZpbGw9IiMxQzIzMzMiIHN0cm9rZT0iIzMwMzYzRCIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHRleHQgeD0iMzYiIHk9IjQxNiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM4Qjk0OUUiIGZvbnQtd2VpZ2h0PSI1MDAiPlBhc3N3b3JkIG11c3QgaGF2ZTo8L3RleHQ+CiAgPGNpcmNsZSBjeD0iMzgiIGN5PSI0MjYiIHI9IjUiIGZpbGw9IiM0REFCRjciIGZpbGwtb3BhY2l0eT0iMC4yIiBzdHJva2U9IiM0REFCRjciIHN0cm9rZS13aWR0aD0iMSIvPgogIDx0ZXh0IHg9IjM4IiB5PSI0MjkiIGZvbnQtc2l6ZT0iOCIgZmlsbD0iIzREQUJGNyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pyTPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSI0MzAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBmaWxsPSIjOEI5NDlFIj5BdCBsZWFzdCA2IGNoYXJhY3RlcnM8L3RleHQ+CiAgPGNpcmNsZSBjeD0iMzgiIGN5PSI0NDAiIHI9IjUiIGZpbGw9IiM0REFCRjciIGZpbGwtb3BhY2l0eT0iMC4yIiBzdHJva2U9IiM0REFCRjciIHN0cm9rZS13aWR0aD0iMSIvPgogIDx0ZXh0IHg9IjM4IiB5PSI0NDMiIGZvbnQtc2l6ZT0iOCIgZmlsbD0iIzREQUJGNyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pyTPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSI0NDQiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBmaWxsPSIjOEI5NDlFIj5BdCBsZWFzdCAxIHVwcGVyY2FzZSBsZXR0ZXI8L3RleHQ+CiAgPGNpcmNsZSBjeD0iMzgiIGN5PSI0NTQiIHI9IjUiIGZpbGw9IiM0REFCRjciIGZpbGwtb3BhY2l0eT0iMC4yIiBzdHJva2U9IiM0REFCRjciIHN0cm9rZS13aWR0aD0iMSIvPgogIDx0ZXh0IHg9IjM4IiB5PSI0NTciIGZvbnQtc2l6ZT0iOCIgZmlsbD0iIzREQUJGNyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pyTPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSI0NTgiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBmaWxsPSIjOEI5NDlFIj5BdCBsZWFzdCAxIHNwZWNpYWwgY2hhcmFjdGVyPC90ZXh0PgoKICA8IS0tIENyZWF0ZSBidXR0b24gLS0+CiAgPHJlY3QgeD0iMjYiIHk9IjQ3MCIgd2lkdGg9IjI2OCIgaGVpZ2h0PSI0NCIgcng9IjExIiBmaWxsPSIjM0I1QkRCIi8+CiAgPHRleHQgeD0iMTYwIiB5PSI0OTciIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q3JlYXRlIEFjY291bnQ8L3RleHQ+CgogIDwhLS0gTG9naW4gbGluayAtLT4KICA8dGV4dCB4PSIxMDgiIHk9IjUzMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM4Qjk0OUUiPkFscmVhZHkgaGF2ZSBhbiBhY2NvdW50PzwvdGV4dD4KICA8dGV4dCB4PSIyMzQiIHk9IjUzMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0REFCRjciIGZvbnQtd2VpZ2h0PSI1MDAiPlNpZ24gSW48L3RleHQ+CgogIDwvZz4KICA8IS0tIEhvbWUgaW5kaWNhdG9yIC0tPgogIDxyZWN0IHg9IjEyMCIgeT0iNjIyIiB3aWR0aD0iODAiIGhlaWdodD0iNCIgcng9IjIiIGZpbGw9IiM0NDRjNjYiLz4KPC9zdmc+" width="200"/> | <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgNjUwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjY1MCI+CiAgPGRlZnM+CiAgICA8Y2xpcFBhdGggaWQ9InNjcmVlbi1jbGlwIj4KICAgICAgPHJlY3QgeD0iMTYiIHk9IjUyIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjU1NiIgcng9IjgiLz4KICAgIDwvY2xpcFBhdGg+CiAgICA8ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0xMCUiIHk9Ii01JSIgd2lkdGg9IjEyMCUiIGhlaWdodD0iMTE1JSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSI4IiBzdGREZXZpYXRpb249IjEyIiBmbG9vZC1jb2xvcj0iIzAwMCIgZmxvb2Qtb3BhY2l0eT0iMC42Ii8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CiAgPCEtLSBQaG9uZSBzaGVsbCAtLT4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjY1MCIgcng9IjM2IiByeT0iMzYiIGZpbGw9IiMxYTFmMmUiIGZpbHRlcj0idXJsKCNzaGFkb3cpIi8+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjMxNiIgaGVpZ2h0PSI2NDYiIHJ4PSIzNCIgcnk9IjM0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyZDM0NDgiIHN0cm9rZS13aWR0aD0iMiIvPgogIDwhLS0gQ2FtZXJhIG5vdGNoIC0tPgogIDxyZWN0IHg9IjEyMCIgeT0iMTgiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxOCIgcng9IjkiIGZpbGw9IiMxMTE1MjAiLz4KICA8Y2lyY2xlIGN4PSIxNjAiIGN5PSIyNyIgcj0iNCIgZmlsbD0iIzBkMTExNyIvPgogIDwhLS0gU2NyZWVuIGJlemVsIC0tPgogIDxyZWN0IHg9IjE0IiB5PSI1MCIgd2lkdGg9IjI5MiIgaGVpZ2h0PSI1NjAiIHJ4PSIxMCIgZmlsbD0iIzE2MUIyMiIvPgogIDwhLS0gU2NyZWVuIGNvbnRlbnQgLS0+CiAgPGcgY2xpcC1wYXRoPSJ1cmwoI3NjcmVlbi1jbGlwKSI+CiAgICA8cmVjdCB4PSIxNiIgeT0iNTIiIHdpZHRoPSIyODgiIGhlaWdodD0iNTU2IiBmaWxsPSIjMEQxMTE3Ii8+CiAgICAKICA8IS0tIEFwcEJhciAtLT4KICA8cmVjdCB4PSIxNiIgeT0iNTIiIHdpZHRoPSIyODgiIGhlaWdodD0iNTIiIGZpbGw9IiMxNjFCMjIiLz4KICA8dGV4dCB4PSIxNjAiIHk9IjgyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI0U2RURGMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RGFzaGJvYXJkPC90ZXh0PgogIDx0ZXh0IHg9IjI3MSIgeT0iODIiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM4Qjk0OUUiPuKPuzwvdGV4dD4KCiAgPCEtLSBVc2VyIGNhcmQgZ3JhZGllbnQgLS0+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzNCNUJEQjtzdG9wLW9wYWNpdHk6MSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMxOTcxQzI7c3RvcC1vcGFjaXR5OjEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHg9IjI2IiB5PSIxMTYiIHdpZHRoPSIyNjgiIGhlaWdodD0iOTYiIHJ4PSIxNCIgZmlsbD0idXJsKCNncmFkMSkiLz4KCiAgPCEtLSBBdmF0YXIgLS0+CiAgPGNpcmNsZSBjeD0iNzAiIGN5PSIxNjQiIHI9IjI4IiBmaWxsPSJ3aGl0ZSIgZmlsbC1vcGFjaXR5PSIwLjI1Ii8+CiAgPHRleHQgeD0iNzAiIHk9IjE3MSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QVI8L3RleHQ+CgogIDwhLS0gVXNlciBpbmZvIC0tPgogIDx0ZXh0IHg9IjEwOCIgeT0iMTQ4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIj5IZWxsbywgQWhtZWQgUmF6YSE8L3RleHQ+CiAgPHRleHQgeD0iMTA4IiB5PSIxNjQiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmaWxsPSJ3aGl0ZSIgZmlsbC1vcGFjaXR5PSIwLjgiPmFobWVkLnJhemFAZ21haWwuY29tPC90ZXh0PgogIDxyZWN0IHg9IjEwOCIgeT0iMTcwIiB3aWR0aD0iNDIiIGhlaWdodD0iMTgiIHJ4PSI5IiBmaWxsPSJ3aGl0ZSIgZmlsbC1vcGFjaXR5PSIwLjIiLz4KICA8dGV4dCB4PSIxMjkiIHk9IjE4MyIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5NYWxlPC90ZXh0PgoKICA8IS0tIFN1YmplY3RzIGxhYmVsIC0tPgogIDx0ZXh0IHg9IjMwIiB5PSIyMzIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI0U2RURGMyI+TXkgU3ViamVjdHM8L3RleHQ+CiAgPHRleHQgeD0iMzAiIHk9IjI0OCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiM4Qjk0OUUiPlRhcCBhIHN1YmplY3QgdG8gdmlldyBkZXRhaWxzPC90ZXh0PgoKICA8IS0tIFN1YmplY3QgY2FyZCAxOiBNb2JpbGUgQXBwIERldiAtLT4KICA8cmVjdCB4PSIyNiIgeT0iMjYwIiB3aWR0aD0iMjY4IiBoZWlnaHQ9IjY2IiByeD0iMTIiIGZpbGw9IiMxQzIzMzMiIHN0cm9rZT0iIzMwMzYzRCIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHJlY3QgeD0iMzgiIHk9IjI3MiIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjQ0IiByeD0iMTAiIGZpbGw9IiMzQjVCREIiIGZpbGwtb3BhY2l0eT0iMC4xNSIvPgogIDx0ZXh0IHg9IjYwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iMjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPvCfk7E8L3RleHQ+CiAgPHRleHQgeD0iOTYiIHk9IjI4OCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNFNkVERjMiPk1vYmlsZSBBcHAgRGV2ZWxvcG1lbnQ8L3RleHQ+CiAgPHRleHQgeD0iOTYiIHk9IjMwNiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM4Qjk0OUUiPk1vbmRheSAmYW1wOyBXZWRuZXNkYXk8L3RleHQ+CiAgPHRleHQgeD0iMjgwIiB5PSIyOTYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiM4Qjk0OUUiPuKAujwvdGV4dD4KCiAgPCEtLSBTdWJqZWN0IGNhcmQgMjogU29mdHdhcmUgUmVlbmdpbmVlcmluZyAtLT4KICA8cmVjdCB4PSIyNiIgeT0iMzM2IiB3aWR0aD0iMjY4IiBoZWlnaHQ9IjY2IiByeD0iMTIiIGZpbGw9IiMxQzIzMzMiIHN0cm9rZT0iIzMwMzYzRCIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHJlY3QgeD0iMzgiIHk9IjM0OCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjQ0IiByeD0iMTAiIGZpbGw9IiMzQjVCREIiIGZpbGwtb3BhY2l0eT0iMC4xNSIvPgogIDx0ZXh0IHg9IjYwIiB5PSIzNzYiIGZvbnQtc2l6ZT0iMjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPvCflKc8L3RleHQ+CiAgPHRleHQgeD0iOTYiIHk9IjM2NCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNFNkVERjMiPlNvZnR3YXJlIFJlLWVuZ2luZWVyaW5nPC90ZXh0PgogIDx0ZXh0IHg9Ijk2IiB5PSIzODIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBmaWxsPSIjOEI5NDlFIj5UdWVzZGF5ICZhbXA7IFRodXJzZGF5PC90ZXh0PgogIDx0ZXh0IHg9IjI4MCIgeT0iMzcyIiBmb250LXNpemU9IjExIiBmaWxsPSIjOEI5NDlFIj7igLo8L3RleHQ+CgogIDwhLS0gU3ViamVjdCBjYXJkIDM6IE1JUyAtLT4KICA8cmVjdCB4PSIyNiIgeT0iNDEyIiB3aWR0aD0iMjY4IiBoZWlnaHQ9IjY2IiByeD0iMTIiIGZpbGw9IiMxQzIzMzMiIHN0cm9rZT0iIzMwMzYzRCIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHJlY3QgeD0iMzgiIHk9IjQyNCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjQ0IiByeD0iMTAiIGZpbGw9IiMzQjVCREIiIGZpbGwtb3BhY2l0eT0iMC4xNSIvPgogIDx0ZXh0IHg9IjYwIiB5PSI0NTIiIGZvbnQtc2l6ZT0iMjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPvCfk4o8L3RleHQ+CiAgPHRleHQgeD0iOTYiIHk9IjQ0MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNFNkVERjMiPk1JUzwvdGV4dD4KICA8dGV4dCB4PSI5NiIgeT0iNDU4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzhCOTQ5RSI+RnJpZGF5PC90ZXh0PgogIDx0ZXh0IHg9IjI4MCIgeT0iNDQ4IiBmb250LXNpemU9IjExIiBmaWxsPSIjOEI5NDlFIj7igLo8L3RleHQ+CgogIDwvZz4KICA8IS0tIEhvbWUgaW5kaWNhdG9yIC0tPgogIDxyZWN0IHg9IjEyMCIgeT0iNjIyIiB3aWR0aD0iODAiIGhlaWdodD0iNCIgcng9IjIiIGZpbGw9IiM0NDRjNjYiLz4KPC9zdmc+" width="200"/> | <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgNjUwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjY1MCI+CiAgPGRlZnM+CiAgICA8Y2xpcFBhdGggaWQ9InNjcmVlbi1jbGlwIj4KICAgICAgPHJlY3QgeD0iMTYiIHk9IjUyIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjU1NiIgcng9IjgiLz4KICAgIDwvY2xpcFBhdGg+CiAgICA8ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0xMCUiIHk9Ii01JSIgd2lkdGg9IjEyMCUiIGhlaWdodD0iMTE1JSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSI4IiBzdGREZXZpYXRpb249IjEyIiBmbG9vZC1jb2xvcj0iIzAwMCIgZmxvb2Qtb3BhY2l0eT0iMC42Ii8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CiAgPCEtLSBQaG9uZSBzaGVsbCAtLT4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjY1MCIgcng9IjM2IiByeT0iMzYiIGZpbGw9IiMxYTFmMmUiIGZpbHRlcj0idXJsKCNzaGFkb3cpIi8+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjMxNiIgaGVpZ2h0PSI2NDYiIHJ4PSIzNCIgcnk9IjM0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyZDM0NDgiIHN0cm9rZS13aWR0aD0iMiIvPgogIDwhLS0gQ2FtZXJhIG5vdGNoIC0tPgogIDxyZWN0IHg9IjEyMCIgeT0iMTgiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxOCIgcng9IjkiIGZpbGw9IiMxMTE1MjAiLz4KICA8Y2lyY2xlIGN4PSIxNjAiIGN5PSIyNyIgcj0iNCIgZmlsbD0iIzBkMTExNyIvPgogIDwhLS0gU2NyZWVuIGJlemVsIC0tPgogIDxyZWN0IHg9IjE0IiB5PSI1MCIgd2lkdGg9IjI5MiIgaGVpZ2h0PSI1NjAiIHJ4PSIxMCIgZmlsbD0iIzE2MUIyMiIvPgogIDwhLS0gU2NyZWVuIGNvbnRlbnQgLS0+CiAgPGcgY2xpcC1wYXRoPSJ1cmwoI3NjcmVlbi1jbGlwKSI+CiAgICA8cmVjdCB4PSIxNiIgeT0iNTIiIHdpZHRoPSIyODgiIGhlaWdodD0iNTU2IiBmaWxsPSIjMEQxMTE3Ii8+CiAgICAKICA8IS0tIEJhbm5lciBncmFkaWVudCAtLT4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZzIiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMTU2NUMwIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzAyODhEMSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZmFkZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSJ0cmFuc3BhcmVudCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9ImJsYWNrIiBzdG9wLW9wYWNpdHk9IjAuNSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3QgeD0iMTYiIHk9IjUyIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjE5MCIgZmlsbD0idXJsKCNnMikiLz4KICA8cmVjdCB4PSIxNiIgeT0iNTIiIHdpZHRoPSIyODgiIGhlaWdodD0iMTkwIiBmaWxsPSJ1cmwoI2ZhZGUpIi8+CgogIDwhLS0gQmFubmVyIGVtb2ppIC0tPgogIDx0ZXh0IHg9IjE2MCIgeT0iMTY1IiBmb250LXNpemU9IjYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7wn5OxPC90ZXh0PgoKICA8IS0tIEJhY2sgYnV0dG9uIC0tPgogIDxjaXJjbGUgY3g9IjM4IiBjeT0iNzgiIHI9IjE2IiBmaWxsPSJibGFjayIgZmlsbC1vcGFjaXR5PSIwLjMiLz4KICA8dGV4dCB4PSIzOCIgeT0iODMiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ihpA8L3RleHQ+CgogIDwhLS0gQmFubmVyIHRpdGxlIC0tPgogIDx0ZXh0IHg9IjE2MCIgeT0iMjMwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNFNkVERjMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPk1vYmlsZSBBcHAgRGV2ZWxvcG1lbnQ8L3RleHQ+CgogIDwhLS0gQ2hpcCAtLT4KICA8cmVjdCB4PSIyNiIgeT0iMjQ4IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiMzQjVCREIiIGZpbGwtb3BhY2l0eT0iMC4xNSIgc3Ryb2tlPSIjM0I1QkRCIiBzdHJva2Utb3BhY2l0eT0iMC40IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8dGV4dCB4PSIxMDEiIHk9IjI2NCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0REFCRjciIHRleHQtYW5jaG9yPSJtaWRkbGUiPk1vYmlsZSBBcHAgRGV2ZWxvcG1lbnQ8L3RleHQ+CgogIDwhLS0gQWJvdXQgc2VjdGlvbiAtLT4KICA8cmVjdCB4PSIyNiIgeT0iMjgyIiB3aWR0aD0iNCIgaGVpZ2h0PSIxNiIgcng9IjIiIGZpbGw9IiMzQjVCREIiLz4KICA8dGV4dCB4PSIzOCIgeT0iMjk0IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNFNkVERjMiPkFib3V0IHRoaXMgQ291cnNlPC90ZXh0PgogIDx0ZXh0IHg9IjMwIiB5PSIzMTIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmaWxsPSIjOEI5NDlFIj5MZWFybiB0byBidWlsZCBjcm9zcy1wbGF0Zm9ybSBtb2JpbGU8L3RleHQ+CiAgPHRleHQgeD0iMzAiIHk9IjMyNiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiM4Qjk0OUUiPmFwcGxpY2F0aW9ucyB1c2luZyBGbHV0dGVyIGFuZCBEYXJ0LjwvdGV4dD4KICA8dGV4dCB4PSIzMCIgeT0iMzQwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgZmlsbD0iIzhCOTQ5RSI+VG9waWNzIGluY2x1ZGUgVUksIHN0YXRlIG1hbmFnZW1lbnQsPC90ZXh0PgogIDx0ZXh0IHg9IjMwIiB5PSIzNTQiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmaWxsPSIjOEI5NDlFIj5uYXZpZ2F0aW9uLCBhbmQgUkVTVCBBUElzLjwvdGV4dD4KCiAgPCEtLSBTY2hlZHVsZSBzZWN0aW9uIC0tPgogIDxyZWN0IHg9IjI2IiB5PSIzNzIiIHdpZHRoPSI0IiBoZWlnaHQ9IjE2IiByeD0iMiIgZmlsbD0iIzNCNUJEQiIvPgogIDx0ZXh0IHg9IjM4IiB5PSIzODQiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI0U2RURGMyI+U2NoZWR1bGU8L3RleHQ+CiAgPHJlY3QgeD0iMjYiIHk9IjM5MiIgd2lkdGg9IjI2OCIgaGVpZ2h0PSI2OCIgcng9IjEwIiBmaWxsPSIjMUMyMzMzIiBzdHJva2U9IiMzMDM2M0QiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxjaXJjbGUgY3g9IjQwIiBjeT0iNDA4IiByPSI0IiBmaWxsPSIjNERBQkY3Ii8+CiAgPHRleHQgeD0iNTIiIHk9IjQxMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiNFNkVERjMiPk1vbmRheSAmYW1wOyBXZWRuZXNkYXk8L3RleHQ+CiAgPGNpcmNsZSBjeD0iNDAiIGN5PSI0MjQiIHI9IjQiIGZpbGw9IiM0REFCRjciLz4KICA8dGV4dCB4PSI1MiIgeT0iNDI4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgZmlsbD0iI0U2RURGMyI+MTA6MDAgQU0g4oCTIDExOjMwIEFNPC90ZXh0PgogIDxjaXJjbGUgY3g9IjQwIiBjeT0iNDQwIiByPSI0IiBmaWxsPSIjNERBQkY3Ii8+CiAgPHRleHQgeD0iNTIiIHk9IjQ0NCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiNFNkVERjMiPlJvb20gMzAxPC90ZXh0PgoKICA8IS0tIE9iamVjdGl2ZXMgLS0+CiAgPHJlY3QgeD0iMjYiIHk9IjQ3MCIgd2lkdGg9IjQiIGhlaWdodD0iMTYiIHJ4PSIyIiBmaWxsPSIjM0I1QkRCIi8+CiAgPHRleHQgeD0iMzgiIHk9IjQ4MiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjRTZFREYzIj5MZWFybmluZyBPYmplY3RpdmVzPC90ZXh0PgogIDx0ZXh0IHg9IjM4IiB5PSI1MDAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM1MUNGNjYiPuKckzwvdGV4dD4KICA8dGV4dCB4PSI1NiIgeT0iNTAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgZmlsbD0iIzhCOTQ5RSI+QnVpbGQgY3Jvc3MtcGxhdGZvcm0gYXBwcyBmb3IgQW5kcm9pZCAmYW1wOyBpT1M8L3RleHQ+CiAgPHRleHQgeD0iMzgiIHk9IjUxOCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzUxQ0Y2NiI+4pyTPC90ZXh0PgogIDx0ZXh0IHg9IjU2IiB5PSI1MTgiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmaWxsPSIjOEI5NDlFIj5NYXN0ZXIgRmx1dHRlciB3aWRnZXRzLCBsYXlvdXRzICZhbXA7IGFuaW1hdGlvbnM8L3RleHQ+CiAgPHRleHQgeD0iMzgiIHk9IjUzNiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzUxQ0Y2NiI+4pyTPC90ZXh0PgogIDx0ZXh0IHg9IjU2IiB5PSI1MzYiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmaWxsPSIjOEI5NDlFIj5JbXBsZW1lbnQgc3RhdGUgbWFuYWdlbWVudCB3aXRoIFByb3ZpZGVyPC90ZXh0PgoKICA8L2c+CiAgPCEtLSBIb21lIGluZGljYXRvciAtLT4KICA8cmVjdCB4PSIxMjAiIHk9IjYyMiIgd2lkdGg9IjgwIiBoZWlnaHQ9IjQiIHJ4PSIyIiBmaWxsPSIjNDQ0YzY2Ii8+Cjwvc3ZnPg==" width="200"/> |
+## CRUD Features
 
-</div>
+| Operation | HTTP Method | Endpoint | App Feature |
+|---|---|---|---|
+| Read | GET | `/posts` | Fetch and display courses |
+| Create | POST | `/posts` | Add a new course |
+| Update | PUT | `/posts/{id}` | Edit an existing course |
+| Delete | DELETE | `/posts/{id}` | Delete a course after confirmation |
 
----
+## Assignment Requirements Covered
 
-## 🗂️ Project Structure
+- Fetch courses from JSONPlaceholder API
+- Display course title, ID, and description
+- Show loading indicators during API calls
+- Handle API error states
+- Add a course using POST
+- Edit a course with a pre-filled form using PUT
+- Delete a course using DELETE with confirmation dialog
+- Keep API logic in a separate service layer: `services/course_api_service.dart`
+- Use reusable model class: `models/course_model.dart`
+- Preserve existing authentication, validation, navigation, and theme structure
 
-```
+## Screenshots
+
+Add screenshots of the following screens before final submission:
+
+| Login | Courses List | Add Course | Edit Course | Course Detail |
+|:---:|:---:|:---:|:---:|:---:|
+| Add image | Add image | Add image | Add image | Add image |
+
+## Project Structure
+
+```text
 lib/
-├── main.dart                    # App entry point & MaterialApp setup
+├── main.dart
 ├── controllers/
-│   └── auth_controller.dart     # AuthController (ChangeNotifier)
-├── enums/
-│   └── app_enums.dart           # Gender, AuthState, Subject enums
+│   └── auth_controller.dart
 ├── models/
-│   └── user_model.dart          # UserModel data class
+│   ├── user_model.dart
+│   └── course_model.dart
 ├── screens/
-│   ├── login_screen.dart        # Sign-in form
-│   ├── registration_screen.dart # Sign-up form with password hints
-│   ├── dashboard_screen.dart    # Post-login home + subject cards
-│   └── detail_screen.dart       # Subject detail with SliverAppBar
+│   ├── login_screen.dart
+│   ├── registration_screen.dart
+│   ├── dashboard_screen.dart
+│   ├── course_form_screen.dart
+│   └── detail_screen.dart
+├── services/
+│   └── course_api_service.dart
 ├── utils/
-│   └── app_theme.dart           # Centralised ThemeData (dark)
+│   └── app_theme.dart
 └── validators/
-    └── app_validator.dart       # Reusable field validators
+    └── app_validator.dart
 ```
 
----
-
-## 🏛️ Architecture
-
-```
-┌─────────────────────────────────────────────────┐
-│                   UI Layer                       │
-│  LoginScreen  RegistrationScreen  DashboardScreen│
-│                   DetailScreen                   │
-└──────────────────────┬──────────────────────────┘
-                       │ calls
-┌──────────────────────▼──────────────────────────┐
-│              AuthController                      │
-│   (ChangeNotifier – holds auth state & users)   │
-└──────────────────────┬──────────────────────────┘
-                       │ reads/writes
-┌──────────────────────▼──────────────────────────┐
-│         In-Memory Store  Map<email, UserModel>   │
-└─────────────────────────────────────────────────┘
-```
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Flutter SDK `>=3.0.0`
-- Dart `>=3.0.0`
-
-### Installation
+## How to Run
 
 ```bash
-# 1. Clone / extract the project
-cd 1st_app
-
-# 2. Get dependencies
 flutter pub get
-
-# 3. Run on a connected device or emulator
 flutter run
 ```
 
-> **Tip:** Use `flutter run -d chrome` to test in the browser instantly.
+## Notes
 
----
-
-## 🔑 How to Use
-
-1. **Register** — tap *Register* on the login screen, fill in your name (e.g. **Ali Hassan** or **Ahmed Raza**), email, gender and a strong password.
-2. **Login** — use the same email & password. Tick *Remember me* if desired.
-3. **Dashboard** — view your personalised greeting and the three enrolled subjects.
-4. **Subject Detail** — tap any subject card to see its description, schedule, and learning objectives.
-5. **Logout** — press the logout icon in the top-right and confirm.
-
----
-
-## 🎨 Theme Palette
-
-| Role | Color | Hex |
-|---|---|---|
-| Primary | ![#3B5BDB](https://placehold.co/14x14/3B5BDB/3B5BDB.png) | `#3B5BDB` |
-| Accent | ![#4DABF7](https://placehold.co/14x14/4DABF7/4DABF7.png) | `#4DABF7` |
-| Background | ![#0D1117](https://placehold.co/14x14/0D1117/0D1117.png) | `#0D1117` |
-| Surface | ![#161B22](https://placehold.co/14x14/161B22/161B22.png) | `#161B22` |
-| Card | ![#1C2333](https://placehold.co/14x14/1C2333/1C2333.png) | `#1C2333` |
-| Success | ![#51CF66](https://placehold.co/14x14/51CF66/51CF66.png) | `#51CF66` |
-| Error | ![#FF6B6B](https://placehold.co/14x14/FF6B6B/FF6B6B.png) | `#FF6B6B` |
-
----
-
-## 📋 Subjects Covered
-
-### 📱 Mobile App Development
-> *Monday & Wednesday · 10:00 AM – 11:30 AM · Room 301*
-
-Learn to build cross-platform mobile applications using Flutter and Dart — covering UI design, state management, REST APIs, and deployment to both Android and iOS.
-
-### 🔧 Software Re-engineering
-> *Tuesday & Thursday · 12:00 PM – 1:30 PM · Room 205*
-
-Study techniques for restructuring existing software systems — reverse engineering, refactoring, migration strategies, and modernising legacy codebases.
-
-### 📊 MIS (Management Information Systems)
-> *Friday · 9:00 AM – 12:00 PM · Room 410*
-
-Covers IT in business processes — database management, ERP systems, decision support, and IT governance frameworks.
-
----
-
-## 🛡️ Validation Rules
-
-| Field | Rule |
-|---|---|
-| Full Name | Minimum 2 characters, no leading/trailing spaces |
-| Email | Standard email format (`*@*.*`) |
-| Password | ≥ 6 chars · 1 uppercase · 1 special character |
-| Confirm Password | Must match the password field exactly |
-| Gender | Required selection |
-
----
-
-## 📦 Dependencies
-
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-```
-
-> No third-party packages — pure Flutter & Dart.
-
----
-
-## 👨‍💻 Developer Notes
-
-- The user store is **in-memory only** — data resets when the app restarts. Swap `Map<String, UserModel>` for a local database (e.g. `sqflite`) or a remote backend for persistence.
-- `AuthController` extends `ChangeNotifier` and is passed down the widget tree via constructor injection — easy to swap for `Provider` or `Riverpod` later.
-- All screens are stateful where needed and properly `dispose()` their controllers to prevent memory leaks.
-
----
-
-<div align="center">
-  Made with ❤️ using Flutter &nbsp;·&nbsp; Dark Theme &nbsp;·&nbsp; Clean Architecture
-</div>
+JSONPlaceholder is a fake API for development. POST, PUT, and DELETE requests return successful responses, but changes are not permanently saved on the remote server. The app updates the local UI after successful responses so CRUD behavior is visible to the user.

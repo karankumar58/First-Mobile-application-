@@ -1,18 +1,18 @@
-// screens/detail_screen.dart
-import 'package:flutter/material.dart';
-import '../enums/app_enums.dart';
+﻿import 'package:flutter/material.dart';
+
+import '../models/course_model.dart';
 import '../utils/app_theme.dart';
 
 class DetailScreen extends StatelessWidget {
-  final Subject subject;
-  const DetailScreen({super.key, required this.subject});
+  final Course course;
+
+  const DetailScreen({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          // Banner / Header
           SliverAppBar(
             expandedHeight: 220,
             pinned: true,
@@ -23,7 +23,9 @@ class DetailScreen extends StatelessWidget {
             ),
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                subject.title,
+                course.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -33,24 +35,22 @@ class DetailScreen extends StatelessWidget {
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  // Gradient banner (placeholder for banner image)
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        colors: _bannerColors(subject),
+                        colors: [Color(0xFF1565C0), Color(0xFF00897B)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                     ),
                   ),
-                  // Icon overlay
-                  Center(
-                    child: Text(
-                      subject.iconEmoji,
-                      style: const TextStyle(fontSize: 72),
+                  const Center(
+                    child: Icon(
+                      Icons.menu_book_rounded,
+                      size: 84,
+                      color: Colors.white70,
                     ),
                   ),
-                  // Bottom fade
                   Positioned.fill(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
@@ -59,7 +59,7 @@ class DetailScreen extends StatelessWidget {
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.transparent,
-                            Colors.black.withOpacity(0.5),
+                            Colors.black.withOpacity(0.55),
                           ],
                         ),
                       ),
@@ -69,26 +69,24 @@ class DetailScreen extends StatelessWidget {
               ),
             ),
           ),
-
-          // Content
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Subject title chip
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
                       color: AppTheme.primaryColor.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                          color: AppTheme.primaryColor.withOpacity(0.4)),
+                        color: AppTheme.primaryColor.withOpacity(0.4),
+                      ),
                     ),
                     child: Text(
-                      subject.title,
+                      'Course ID: ${course.id ?? 'New'}',
                       style: const TextStyle(
                         color: AppTheme.accentColor,
                         fontSize: 13,
@@ -97,12 +95,22 @@ class DetailScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-
-                  // Description Section
-                  _sectionTitle('About this Course'),
+                  _sectionTitle('Course Title'),
                   const SizedBox(height: 10),
                   Text(
-                    subject.description,
+                    course.title,
+                    style: const TextStyle(
+                      color: AppTheme.textPrimary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      height: 1.35,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  _sectionTitle('Description'),
+                  const SizedBox(height: 10),
+                  Text(
+                    course.description,
                     style: const TextStyle(
                       color: AppTheme.textSecondary,
                       fontSize: 14.5,
@@ -110,17 +118,7 @@ class DetailScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-
-                  // Schedule Section
-                  _sectionTitle('Schedule'),
-                  const SizedBox(height: 10),
-                  _scheduleCard(subject.schedule),
-                  const SizedBox(height: 32),
-
-                  // Objectives list
-                  _sectionTitle('Learning Objectives'),
-                  const SizedBox(height: 10),
-                  ..._objectives(subject).map(_objectiveItem),
+                  _infoCard(),
                 ],
               ),
             ),
@@ -154,8 +152,7 @@ class DetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _scheduleCard(String schedule) {
-    final parts = schedule.split('|');
+  Widget _infoCard() {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -163,87 +160,22 @@ class DetailScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFF30363D)),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: parts.map((part) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Row(
-              children: [
-                const Icon(Icons.circle, size: 8, color: AppTheme.accentColor),
-                const SizedBox(width: 10),
-                Text(
-                  part.trim(),
-                  style: const TextStyle(
-                      color: AppTheme.textPrimary, fontSize: 14),
-                ),
-              ],
-            ),
-          );
-        }).toList(),
-      ),
-    );
-  }
-
-  Widget _objectiveItem(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 3),
-            child: Icon(Icons.check_circle_rounded,
-                size: 18, color: AppTheme.successColor),
-          ),
-          const SizedBox(width: 10),
+          const Icon(Icons.cloud_done_outlined, color: AppTheme.accentColor),
+          const SizedBox(width: 12),
           Expanded(
-            child: Text(text,
-                style: const TextStyle(
-                    color: AppTheme.textSecondary, fontSize: 14, height: 1.5)),
+            child: Text(
+              'Loaded from JSONPlaceholder /posts endpoint as course data.',
+              style: const TextStyle(
+                color: AppTheme.textSecondary,
+                fontSize: 13,
+                height: 1.5,
+              ),
+            ),
           ),
         ],
       ),
     );
-  }
-
-  List<Color> _bannerColors(Subject subject) {
-    switch (subject) {
-      case Subject.mobileAppDevelopment:
-        return [const Color(0xFF1565C0), const Color(0xFF0288D1)];
-      case Subject.softwareReengineering:
-        return [const Color(0xFF1B5E20), const Color(0xFF388E3C)];
-      case Subject.mis:
-        return [const Color(0xFF4A148C), const Color(0xFF7B1FA2)];
-    }
-  }
-
-  List<String> _objectives(Subject subject) {
-    switch (subject) {
-      case Subject.mobileAppDevelopment:
-        return [
-          'Build cross-platform apps for Android and iOS',
-          'Master Flutter widgets, layouts, and animations',
-          'Implement state management using Provider or Riverpod',
-          'Integrate REST APIs and handle async data',
-          'Deploy apps to app stores',
-        ];
-      case Subject.softwareReengineering:
-        return [
-          'Understand legacy system analysis techniques',
-          'Apply code refactoring and design patterns',
-          'Perform reverse engineering on existing systems',
-          'Migrate monolithic apps to microservices',
-          'Ensure quality through automated testing',
-        ];
-      case Subject.mis:
-        return [
-          'Understand the role of IT in organizational management',
-          'Analyze business processes and data flows',
-          'Work with ERP and decision support systems',
-          'Evaluate information systems for business value',
-          'Apply IT governance and security frameworks',
-        ];
-    }
   }
 }
