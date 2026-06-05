@@ -43,11 +43,13 @@ JSONPlaceholder uses `posts` resources with `id`, `userId`, `title`, and `body`.
 
 ## Screenshots
 
-Add screenshots of the following screens before final submission:
+| Login | Signup Form | Signup With Data |
+|:---:|:---:|:---:|
+| <img src="outcomes/01-login.png" width="220" alt="Login screen"> | <img src="outcomes/02-signup-form.png" width="220" alt="Signup form"> | <img src="outcomes/03-signup-with-data.png" width="220" alt="Signup form with data"> |
 
-| Login | Courses List | Add Course | Edit Course | Course Detail |
-|:---:|:---:|:---:|:---:|:---:|
-| Add image | Add image | Add image | Add image | Add image |
+| Login Success | API Course List | API Course Detail | Add Course Output |
+|:---:|:---:|:---:|:---:|
+| <img src="outcomes/04-login-success.png" width="220" alt="Login success dashboard"> | <img src="outcomes/05-api-course-list.png" width="220" alt="Course list from API"> | <img src="outcomes/06-api-course-detail.png" width="220" alt="Course detail from API"> | <img src="outcomes/07-add-course-output.png" width="220" alt="Added course output"> |
 
 ## Project Structure
 
