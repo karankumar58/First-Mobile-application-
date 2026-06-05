@@ -176,5 +176,5 @@ dependencies:
 ---
 
 <div align="center">
-  Made with ❤️ using Flutter &nbsp;·&nbsp; Dark Theme &nbsp;·&nbsp; Clean Architecture
+  Develop by karan kumar
 </div>
